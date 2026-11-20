@@ -118,6 +118,21 @@ or
 
 11. For more information on the workflow of creating xLights sequences, please use existing online resources. The rest of these instructions contain Tesla-specific information for show creators.
 
+## Generating a show automatically from a song
+[tools/auto_show.py](tools/auto_show.py) builds a complete show straight from an audio file, without xLights.
+It finds the beat grid (phase-locked to the kick drum), kick / snare / hi-hat hits and how intense each 4-bar
+phrase is, then choreographs the lights (tuned for Model 3/Y, plays on every supported vehicle), the interior
+RGB lights and a few closures (mirrors, windows, charge port, power trunk) within Tesla's command limits.
+Needs Python with numpy, and ffmpeg on PATH.
+```
+pip install numpy
+python tools/auto_show.py "My Song.wav" output/my-song --bpm 126
+python validator.py output/my-song/LightShow/lightshow.fseq
+```
+`--bpm` is optional (it is estimated when left out, but the exact tempo gives the tightest sync). The result is
+`output/my-song/LightShow/lightshow.fseq` plus `lightshow.wav` (44.1 kHz): copy the `LightShow` folder to the
+root of a USB drive.
+
 ## Light Show Sequence Validator Script
 A Python [validator.py](validator.py) script is provided to help check if your custom light show sequence meets these limitations, without needing a Tesla vehicle.
 
